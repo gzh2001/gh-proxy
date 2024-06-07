@@ -188,10 +188,13 @@ def proxy(u, allow_redirects=False):
                 headers['Location'] = '/' + _location
             else:
                 return proxy(_location, True)
-
+        if 'Transfer-Encoding' in headers:
+            headers.pop('Transfer-Encoding')  
         return Response(generate(), headers=headers, status=r.status_code)
     except Exception as e:
         headers['content-type'] = 'text/html; charset=UTF-8'
+        if 'Transfer-Encoding' in headers:
+            headers.pop('Transfer-Encoding')    
         return Response('server error ' + str(e), status=500, headers=headers)
 
 app.debug = True
