@@ -1,4 +1,4 @@
-FROM tiangolo/meinheld-gunicorn:python3.7
+FROM tiangolo/meinheld-gunicorn-flask:python3.7
 
 LABEL maintainer="Gzhdev <gzhdev@outlook.com>"
 
