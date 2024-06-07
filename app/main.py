@@ -51,9 +51,9 @@ exp5 = re.compile(r'^(?:https?://)?gist\.(?:githubusercontent|github)\.com/(?P<a
 
 requests.sessions.default_headers = lambda: CaseInsensitiveDict()
 
-# gunicorn_logger = logging.getLogger("gunicorn.debug") # logger对象，gunicorn.error记录器
-# app.logger.handlers = gunicorn_logger.handlers # 将Flask应用程序记录器的处理程序设置为Gunicorn记录器
-# app.logger.setLevel(gunicorn_logger.level) # 将-log-level传递给gunicorn，成为其适当处理程序的日志级别
+gunicorn_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers = gunicorn_logger.handlers # 将Flask应用程序记录器的处理程序设置为Gunicorn记录器
+app.logger.setLevel(gunicorn_logger.level) # 将-log-level传递给gunicorn，成为其适当处理程序的日志级别
 
 
 @app.route('/')
@@ -197,6 +197,6 @@ def proxy(u, allow_redirects=False):
 app.debug = True
 if __name__ == '__main__':
     gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel('INFO')  #<<-特别注意，否则info级别不能打印
+    app.logger.handlers = gunicorn_logger.handlers # 将Flask应用程序记录器的处理程序设置为Gunicorn记录器
+    app.logger.setLevel(gunicorn_logger.level) # 将-log-level传递给gunicorn，成为其适当处理程序的日志级别
     app.run(host=HOST, port=PORT)
